@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- FIXED NAVIGATION BAR -->
+  <nav id="navbar">
+    <div class="logo">💰 ExpenseTracker</div>
+    <ul class="nav-links">
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#add">Add Expense</a></li>
+      <li><a href="#history">History</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="container" id="dashboard">
+
+    <h1>Expense Tracker</h1>
+
+    <!-- BALANCE -->
+    <section class="balance">
+      <h3>Current Balance</h3>
+      <p id="balance">₹0.00</p>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+      <div class="card income-card">
+        <h4>Income</h4>
+        <p id="income">₹0.00</p>
+      </div>
+      <div class="card expense-card">
+        <h4>Expense</h4>
+        <p id="expense">₹0.00</p>
+      </div>
+    </section>
+
+    <!-- ADD EXPENSE -->
+    <section id="add">
+      <form id="form">
+        <input type="text" id="text" placeholder="Expense description" required>
+        <input type="number" id="amount" placeholder="Amount (use - for expense)" required>
+
+        <select id="category">
+          <option>Food</option>
+          <option>Travel</option>
+          <option>Shopping</option>
+          <option>Salary</option>
+          <option>Other</option>
+        </select>
+
+        <button type="submit">Add Transaction</button>
+      </form>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history">
+      <h3>Transaction History</h3>
+      <ul id="list"></ul>
+    </section>
+
+    <footer>
+      Created by Nishad Kulkarni
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
