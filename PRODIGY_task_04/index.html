@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌤️ Weather App You Can Run</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #e0f2ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    min-height: 100vh;
+    color: #0a3d62;
+  }
+  h1 { margin-top: 30px; }
+  .weather-container { text-align: center; margin-top: 20px; }
+  #cityInput { padding: 8px; width: 250px; font-size: 16px; }
+  #searchBtn {
+    padding: 8px 14px;
+    font-size: 16px;
+    border: none;
+    background: #0e2a84;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  #searchBtn:hover { background: #081c62; }
+  #weatherCard {
+    width: 250px;
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+  }
+  .weather-icon { width: 80px; height: 80px; }
+</style>
+</head>
+<body>
+
+<h1>🌦️ Weather Explorer</h1>
+
+<div class="weather-container">
+  <input type="text" id="cityInput" placeholder="Enter city name" />
+  <button id="searchBtn">Search</button>
+</div>
+
+<div id="weatherCard">Weather Info Appears Here</div>
+
+<script>
+  const weatherCard = document.getElementById("weatherCard");
+  const cityInput = document.getElementById("cityInput");
+  const searchBtn = document.getElementById("searchBtn");
+
+  // 👉 Replace this with *your own valid* OpenWeatherMap API key
+  const API_KEY = https://www.google.com/search?q=google+weather+&sca_esv=7404637b75c7abc6&sxsrf=ANbL-n46Hq55qHQGpbowksy5RfgLPEOCkg%3A1769368843883&ei=C212aaLTNYDTosUPgrv2qAg&ved=0ahUKEwjihKrLtKeSAxWAqagCHYKdHYUQ4dUDCBM&uact=5&oq=google+weather+&gs_lp=Egxnd3Mtd2l6LXNlcnAiD2dvb2dsZSB3ZWF0aGVyIDIREAAYgAQYkQIYsQMYgwEYigUyDhAAGIAEGJECGLEDGIoFMgsQABiABBiRAhiKBTIGEAAYBxgeMgYQABgHGB4yCxAAGIAEGJECGIoFMgsQABiABBiRAhiKBTIGEAAYBxgeMgUQABiABDIGEAAYBxgeSMc_UOgNWK05cAJ4AZABAJgB8QKgAccOqgEHMC4zLjQuMbgBA8gBAPgBAZgCB6AC-AfCAgoQABiwAxjWBBhHwgINEAAYgAQYsAMYQxiKBcICChAjGIAEGCcYigXCAggQABiABBixA8ICChAAGIAEGEMYigXCAg4QABiABBixAxiDARiKBcICBxAAGIAEGA2YAwCIBgGQBgqSBwUyLjIuM6AH4TGyBwUwLjIuM7gH8QfCBwUwLjMuNMgHF4AIAA&sclient=gws-wiz-serp;
+
+  searchBtn.addEventListener("click", () => {
+    const city = cityInput.value.trim();
+    if (city === "") {
+      weatherCard.innerHTML = "⚠️ Please enter a city name.";
+      return;
+    }
+    weatherCard.innerHTML = "Loading…";
+    fetchWeather(city);
+  });
+
+  async function fetchWeather(city) {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`
+      );
+      const data = await response.json();
+
+      if (data.cod !== 200) {
+        weatherCard.innerHTML = `❌ ${data.message}`;
+        return;
+      }
+
+      const { name } = data;
+      const icon = data.weather[0].icon;
+      const desc = data.weather[0].description;
+      const temp = data.main.temp;
+      const humidity = data.main.humidity;
+      const wind  = data.wind.speed;
+
+      weatherCard.innerHTML = `
+        <img class="weather-icon" src="https://openweathermap.org/img/wn/${icon}@2x.png" />
+        <div>${name}</div>
+        <div>${desc}</div>
+        🌡️ ${temp}°C<br>💧 ${humidity}%<br>💨 ${wind} m/s
+      `;
+    } catch (err) {
+      weatherCard.innerHTML = "❌ Failed to fetch data.";
+      console.error(err);
+    }
+  }
+</script>
+
+</body>
+</html>
